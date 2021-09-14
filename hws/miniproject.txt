@@ -1,0 +1,14 @@
+For the miniproject, I have decided to make a speed typing program.
+This program would display a text for the user to copy and once entered,
+the program would return their speed, accuract and wpm.
+In addition to this, the program would display random texts to copy
+to keep the user more interested. If I have time, I would add a leaderboard
+that would display the fastest time for whatever text that was copied and add
+practice game where words would be randomly displayed and the user copies the words
+displayed. Another addition to the program would make it so the user has a timelimit
+and they must type as many words as possible. Some tests that I would run is to have make sure the program accurately
+records when the user starts typing. In addition to this, make sure that calculations for
+the results is correct. Another test would to check that the program accuratly records
+what the user types. Some other tests, include making sure that the program display different
+texts so that the program would not be bland and making sure that the program
+can record symbols and other non-alphabetical values. 
