@@ -1,0 +1,51 @@
+The ```attrs``` module
+======================
+
+First import everything from attrs.py:
+
+    >>> from attrs import *
+
+Set up some example data:
+
+    >>> attrs = {'a': 3, 'b': 4}
+    >>> attrs
+    {'a': 3, 'b': 4}
+
+Try our first function (that needs to be implemented in attrs.py):
+
+    >>> has_attr(attrs, 'b')
+    True
+
+Notice that the following functions don't modify their first argument.
+Instead, they return their result without changing the argument.
+
+    >>> remove_attr(attrs, 'a')
+    {'b': 4}
+
+    >>> attrs
+    {'a': 3, 'b': 4}
+
+    >>> update_attr(attrs, ['a', 17])
+    {'a': 17, 'b': 4}
+
+    >>> update_attr(attrs, ['c', 17])
+    {'a': 3, 'b': 4, 'c': 17}
+
+The following value is obtained from the sys module, by negating maxsize.
+That is, we use -sys.maxsize as our special value.
+
+    >>> non_attr_val
+    -9223372036854775807
+
+    >>> update_attr(attrs, ['a', non_attr_val])
+    {'b': 4}
+
+    >>> update_multi_attr(attrs, [['b', 5], ['a', non_attr_val]])
+    {'b': 5}
+
+    >>> attrs
+    {'a': 3, 'b': 4}
+
+    >>> attrs_from_string("d 3 e 4")
+    {'d': 3, 'e': 4}
+
