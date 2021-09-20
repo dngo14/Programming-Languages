@@ -3,7 +3,7 @@ import time
 import random
 
 def prompts(): #function to choose a randome prompt
-    prompt1 =" I had never seen a house on fire before, so, one evening when I heard fire engines"\
+    prompt1 ="I had never seen a house on fire before, so, one evening when I heard fire engines"\
     #"with loud alarm bells rushing past my house. I quickly ran out and, a few streets away, joined a large"\
     #"crowd of people. We could see the fire only from a distance because the police would not allow any one near the building on fire"\
     #"What a terrible scene I saw that day! Huge flames of fire were coming out of each floor, and black and thick smoke spread all around."\
@@ -21,28 +21,48 @@ def prompts(): #function to choose a randome prompt
     #"and returned home after enjoying a most delightful evening."
 
     listofprompts = [prompt1, prompt2]
-
     x = random.choice(listofprompts)
+
     return x
 
 def finderrors(prompt, userinput): #function to find errors
-    errors = 0
-
     promptwords = prompt.split()
     userwords = userinput.split()
 
+    listofdifferences = list(set(promptwords).difference(userwords))
+    errors = len(listofdifferences)
+    print(listofdifferences)
+
+    listofcommon = list(set(promptwords).intersection(userwords))
+    correctentries = len(listofcommon)
+
+    promptspaces = promptwords.count(" ")
+    userspaces = userwords.count(" ")
+    spaceerrors = abs(promptspaces - userspaces)
+    errors += spaceerrors
+
+    return errors, correctentries
+
+        
+
+
 def elapsedtime(start, end): #function to find elapsed time
     time = (end - start)
+
     return time
 
 def typingspeed(userinput, errors, time): #function to find typing speed
     characters = len(list(userinput))
     grosswpm = (characters/5)/time
     netwpm = ((characters/5)-errors)/time
-    print(characters)
 
-#def typingaccuracy(): #function to find percent accuracy
+    return netwpm, grosswpm
 
+def typingaccuracy(correctentries, prompt): #function to find percent accuracy
+    promptlength = len(prompt.split())
+    accuracy = correctentries/promptlength
+    
+    return accuracy
     
 
 if __name__ == '__main__':
@@ -54,10 +74,8 @@ if __name__ == '__main__':
     end = time.time()
 
     usertime = elapsedtime(start, end)
-    errors = finderrors(prompt, userinput)
-    typingspeed(userinput, errors, usertime)
+    errors, correctentries = finderrors(prompt, userinput)
+    netwpm, grosswpm = typingspeed(userinput, errors, usertime)
+    accuracy = typingaccuracy(correctentries, prompt)
     
-    
-    
-    print(usertime)
-    print (userinput)
+    print("You had {} errors\nAccuracy: {}%\nNetWPM: {}\nGrossWPM: {}\nTime: {}".format(errors, accuracy, netwpm, grosswpm, usertime))
