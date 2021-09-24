@@ -1,0 +1,77 @@
+One application of depth first search is to find a path that connects a given starting node to a given goal node.  For example, let's find a path from node S to node T in our input graph:
+    >>> from Graph import *
+    >>> s = open("input_graph").read()
+    >>> g = parse_graph(s)
+    >>> g.find_path('S', 'T')
+    ['S', 'A', 'D', 'C', 'E', 'T']
+
+A longer explanation of how to build the find_path function is linked from the homework page.
+
+Our graph object has the ability to store extra information about each node and each edge.  Let's add some functions that can show neighbor information, and get and set various attributes.
+
+Method name: show_nbrs
+1 Argument:  the name of a node
+State change: prints out the neighbors of the node, in an easy-to-read format.
+
+    >>> g.show_nbrs("B")
+    A{'value': '10'} D{'value': '1'}
+
+Method name: edge_len
+2 Arguments:  the name of a node and a neighbor of that node
+Return: the edge length between the node and the neighbor.
+  If no such neighbor exists, then print a warning and return zero.
+
+    >>> g.edge_len("A", "D")
+    2
+
+    >>> g.edge_len("B", "A")
+    10
+
+    >>> g.edge_len("B", "T")
+    Warning in edge_len:  unable to find edge from B to T
+    0
+
+Method name: set_edge_len
+3 Arguments: the name of a node, a neighbor, and a number.
+State change: modifies the edge length between the node and the neighbor.
+  If no such neighbor exists, then print a warning.
+
+    >>> g.set_edge_len("A", "D", 17)
+    >>> g.show_nbrs("A")
+    D{'value': 17}
+
+    >>> g.set_edge_len("A", "B", 17)
+    Warning in set_edge_len:  unable to find edge from A to B
+
+    >>> g.show_nbrs("A")
+    D{'value': 17}
+
+We may also want to be able to update the structure of the graph.
+
+Method name: add_edge
+2 Arguments:  the name of a node and a new neighbor of that node.
+State change:  modifies the list of neighbors to include the new neighbor.
+
+    >>> g.add_edge("A", "T")
+    >>> g.show_nbrs("A")
+    D{'value': 17} T{}
+
+Method name: remove_edge
+2 Arguments:  the name of a node and a neighbor of that node.
+State change:  modifies the list of neighbors to remove the neighbor.
+
+    >>> g.remove_edge("A", "D")
+    >>> g.show_nbrs("A")
+    T{}
+
+Method name: sort_adj_list
+Zero Arguments.
+State change: sorts all the lists of neighbors in the adj_list so that they
+  are in alphabetical order, if they are not already.
+
+    >>> g.show_nbrs("S")
+    A{'value': '3'} B{'value': '3'} C{'value': '4'}
+
+    >>> g.sort_adj_list()
+    >>> g.show_nbrs("S")
+    A{'value': '3'} B{'value': '3'} C{'value': '4'}
