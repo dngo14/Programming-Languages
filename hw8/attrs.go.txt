@@ -1,0 +1,40 @@
+The ```attrs``` module
+======================
+
+Set up some example data:
+
+    > attrs := []Attr{{"a", 3}, {"b", 4}}
+    > attrs
+    [{a 3} {b 4}]
+
+Try our first function (that needs to be implemented in attrs.py):
+
+    > HasAttr(attrs, "b")
+    true
+
+Notice that the following functions don't modify their first argument.
+Instead, they return their result without changing the argument.
+
+    > RemoveAttr(attrs, "a")
+    [{b 4}]
+
+    > attrs
+    [{a 3} {b 4}]
+
+The following value is the smallest allowable 32-bit integer value.
+That is, we use math.MinInt32 as our special value.
+
+    > NonAttrVal
+    -2147483648
+
+    > UpdateAttr(attrs, Attr{"a", 17})
+    [{a 17} {b 4}]
+
+    > UpdateAttr(attrs, Attr{"a", NonAttrVal})
+    [{b 4}]
+
+    > UpdateMultiAttr(attrs, []Attr{{"b", 5}, {"a", NonAttrVal}})
+    [{b 5}]
+
+    > AttrsFromString("d 3 e 4")
+    [{d 3} {e 4}]
