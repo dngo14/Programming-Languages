@@ -1,6 +1,6 @@
-//package attrs
+package attrs
 
-package main
+//package main
 
 import (
 	"fmt"
@@ -38,37 +38,36 @@ func RemoveAttr(x []Attr, y string) []Attr {
 var NonAttrVal = math.MinInt32
 
 func UpdateAttr(x []Attr, y Attr) []Attr {
-	var count int = 0
-	var attrs []Attr
-	for _, value := range x {
+	attrscopy := make([]Attr, len(x))
+	copy(attrscopy, x)
+	for i := 0; i < len(x); i++ {
 		if y.y == math.MinInt32 {
 			//x[count] = nil
-			attrs = append(x[:count], x[count+1:]...)
+			attrscopy := append(x[:i], x[i+1:]...)
+			return attrscopy
 			//x = j
 			//fmt.Println(j)
-			//fmt.Print(attrs)
-			return attrs
-		} else if value.x == y.x {
-			x[count].y = y.y
+			//fmt.Println(attrs)
+		} else if x[i].x == y.x {
+			num := y.y
+			attrscopy[i].y = num
 		}
-		count++
 	}
 	//fmt.Println(x)
 	//fmt.Print(x)
-	return x
+	//return attrs
+	return attrscopy
 }
 
 func UpdateMultiAttr(x []Attr, y []Attr) []Attr {
-	var count int = 0
-	for _, value := range x {
+	for i := 0; i < len(x); i++ {
 		for _, value2 := range y {
-			if value.x == value2.x {
+			if x[i].x == value2.x {
 				//k := &x[count]
 				//k.y = value2.y
-				x[count].y = value2.y
+				x[i].y = value2.y
 			}
 		}
-		count++
 	}
 	for i := 0; i < len(x); i++ {
 		if x[0].y == math.MinInt32 {
@@ -100,13 +99,13 @@ func main() {
 	//fmt.Println(y)
 	//fmt.Println(NonAttrVal)
 	//fmt.Println(attrs)
-	x := UpdateAttr(attrs, Attr{"a", 17})
-	fmt.Println(x)
-	//fmt.Println(attrs)
+	got := UpdateAttr(attrs, Attr{"a", 17})
+	fmt.Print(got)
+	fmt.Println(attrs)
 	//UpdateAttr(attrs, Attr{"a", NonAttrVal})
 	//fmt.Println(attrs)
 	//UpdateMultiAttr(attrs, []Attr{{"b", 5}, {"a", NonAttrVal}})
-	fmt.Println(attrs)
+	//fmt.Println(attrs)
 	//AttrsFromString("d 3 e 4")
 	//fmt.Println(attrs)
 }
