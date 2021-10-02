@@ -1,9 +1,10 @@
-//package graph
+package graph
 
-package main
+//package main
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -15,30 +16,92 @@ import (
 //var g2 *Graph = New(G0)
 
 type Graph struct {
-	isDirected bool
+	IsDirected bool
 	nodes      []Node
 }
 
 type Node struct {
 	ID       string
-	attrs    []Attr
+	attrs    Attr
 	Incident []edge
 }
 
 type edge struct {
-	attrs  []Attr
+	attrs  Attr
 	Source *Node
 	Target *Node
 }
 
 type Attr struct {
 	x, y, value int
+	name        string
+	//value int
 }
 
-// func (g *Graph) NumEdges() {
-// 	//graph := strings.Split(G0, "\n")
-// 	g.isDirected = true
-// }
+func (g *Graph) isdirected() bool {
+	if g.IsDirected == true {
+		return true
+	} else {
+		return false
+	}
+}
+
+func (g *Graph) NumEdges() int {
+	count := 0
+	for i := 0; i < len(g.nodes); i++ {
+		for j := 0; j < len(g.nodes[i].Incident); j++ {
+			count += 1
+		}
+	}
+	return count
+}
+
+func (g *Graph) HasEdge(x, y string) bool {
+	for i := 0; i < len(g.nodes)-1; i++ {
+		if g.nodes[i].ID == x {
+			for j := 0; j < len(g.nodes[i].Incident); j++ {
+				if g.nodes[i].Incident[j].Target.ID == y {
+					return true
+				} else {
+					return false
+				}
+			}
+		}
+	}
+	return false
+}
+
+func (g *Graph) String() string {
+	stringvalue := "directed "
+	stringvalue += strconv.FormatBool(g.IsDirected) + "\n"
+	for i := 0; i < len(g.nodes); i++ {
+		x := strconv.Itoa(g.nodes[i].attrs.x)
+		y := strconv.Itoa(g.nodes[i].attrs.y)
+		stringvalue += g.nodes[i].ID + " x " + x + " y " + y + "\n"
+	}
+	for i := 0; i < len(g.nodes); i++ {
+		if len(g.nodes[i].Incident) > 0 {
+			for j := 0; j < len(g.nodes[i].Incident); j++ {
+				mainnode := g.nodes[i].Incident[j].Source.ID
+				neighbor := g.nodes[i].Incident[j].Target.ID
+				value := strconv.Itoa(g.nodes[i].Incident[j].attrs.value)
+				stringvalue += mainnode + neighbor + " value " + value + "\n"
+			}
+		}
+	}
+	//stringvalue = strings.TrimSuffix(stringvalue, "\n")
+	return stringvalue
+}
+
+func (g *Graph) ClearEdges() {
+	for i := 0; i < len(g.nodes); i++ {
+		if len(g.nodes[i].Incident) > 0 {
+			for j := 0; j < len(g.nodes[i].Incident); j++ {
+				g.nodes[i].Incident = nil
+			}
+		}
+	}
+}
 
 func New(x string) *Graph {
 	graphdata := strings.Split(x, "\n")
@@ -46,32 +109,46 @@ func New(x string) *Graph {
 	//fmt.Println(graphdata)
 	graph := Graph{}
 	if strings.Contains(x, "true") == true {
-		graph.isDirected = true
+		graph.IsDirected = true
 	} else {
-		graph.isDirected = false
+		graph.IsDirected = false
 	}
-
-	for i := 0; i < len(graphdata)-1; i++ {
+	for i := 0; i < len(graphdata); i++ {
 		if strings.Contains(graphdata[i], "x") {
-			strings := strings.Split(graphdata[i], " ")
-			x := strings[6]
-			y := strings[8]
-			fmt.Println(x, y)
-			graph.nodes = append(graph.nodes, Node{strings[0], nil, nil})
+			strings := strings.Fields(graphdata[i])
+			x := strings[2]
+			xint, _ := strconv.Atoi(x)
+			y := strings[4]
+			yint, _ := strconv.Atoi(y)
+			graph.nodes = append(graph.nodes, Node{strings[0], Attr{xint, yint, 0, ""}, nil})
+
 		}
 	}
 
-	// for index, value := range graphdata {
-	// 	for index2, value2 := range graph.nodes {
-	// 		if strings.Contains(graphdata[index], "value") {
-	// 			node := strings.Split(graphdata[index], "")
-	// 			if node[0] == graph.nodes[index2].ID {
-	// 				graph.nodes[index2].Incident = append(graph.nodes[index2].Incident, edge{nil, &, &graph.nodes})
-	// 			}
-	// 		}
-	// 	}
-	// }
-	fmt.Println(len(graph.nodes))
+	for index, _ := range graphdata {
+		for index2, _ := range graph.nodes {
+			if strings.Contains(graphdata[index], "value") {
+				//node := strings.Split(graphdata[index], "")
+				node := strings.Fields(graphdata[index])
+				mainnode := strings.Split(node[0], "")
+				//fmt.Println(graph.nodes[index2].ID)
+				if mainnode[0] == graph.nodes[index2].ID {
+					neighbor := mainnode[1]
+					source := &graph.nodes[index2]
+					length, _ := strconv.Atoi(node[len(node)-1])
+					var neighboraddress *Node
+					for index3, _ := range graph.nodes {
+						if neighbor == graph.nodes[index3].ID {
+							neighboraddress = &graph.nodes[index3]
+							break
+						}
+					}
+					graph.nodes[index2].Incident = append(graph.nodes[index2].Incident, edge{Attr{0, 0, length, ""}, source, neighboraddress})
+				}
+			}
+		}
+	}
+	//fmt.Println(graph.nodes[0].Incident[0])
 
 	return &graph
 }
@@ -99,5 +176,17 @@ func main() {
     SC value 4
     `
 	var g *Graph = New(G0)
-	fmt.Println(g.isDirected)
+	fmt.Println(g.IsDirected)
+	count := g.NumEdges()
+	fmt.Println(count)
+	has := g.HasEdge("A", "T")
+	fmt.Println(has)
+	value := g.String()
+	fmt.Println(value)
+	g.ClearEdges()
+	count2 := g.NumEdges()
+	fmt.Println(count2)
+	value2 := g.String()
+	fmt.Println(value2)
+
 }

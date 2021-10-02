@@ -1,0 +1,88 @@
+Please build a Graph class in a file called graph/graph.go that begins
+like this:
+
+package graph
+
+import (
+  "fmt"
+)
+
+// Graph with both Node and edge content (edges contained in Nodes)
+type Graph struct {
+// includes IsDirected and nodes, which is a slice of Node structs
+  IsDirected bool
+// ...
+
+type Node struct {
+// includes ID, attrs (a slice of Attr structs), and Incident
+//         (a slice of edge structs)
+// ...
+
+type edge struct {
+// includes attrs, Source, and Target, the latter are pointers to Node
+// ...
+
+type Attr struct {
+// ...
+
+Notice that, now that we have pointers, we are using pointers in our
+edges to point to the relevant Nodes.  The attributes will store 
+information related to position (the x, y for Nodes) and values
+for edges.
+
+Here is a summary of tests to run, again this is not the real test file,
+since we need more boilerplate code for that part:
+
+    > var g *Graph = New(G0)
+    > var g2 *Graph = New(G0)
+
+    > g.IsDirected()
+    True
+
+    > g.NumEdges()
+    11
+
+    > g.HasEdge("A", "D")
+    True
+
+    > g.HasEdge("A", "T")
+    False
+
+Please create a String method so that, when we print the value of
+the variable g, we get a nicely formatted output that shows the contents
+of all our data structures.  Do NOT store the original string!
+
+    > g.String()
+    directed true
+    A fx 190 fy 50
+    B fx 170 fy 210
+    C fx 170 fy 370
+    D fx 390 fy 50
+    E fx 410 fy 370
+    S fx 50 fy 210
+    T fx 550 fy 210
+    AD value 2
+    BA value 10
+    BD value 1
+    CE value 5
+    DC value 1
+    DE value 1
+    DT value 2
+    ET value 5
+    SA value 3
+    SB value 3
+    SC value 4
+
+    > g2.ClearEdges()
+    > g2.NumEdges()
+    0
+
+    > g2.String()
+    directed true
+    A fx 190 fy 50
+    B fx 170 fy 210
+    C fx 170 fy 370
+    D fx 390 fy 50
+    E fx 410 fy 370
+    S fx 50 fy 210
+    T fx 550 fy 210
