@@ -20,10 +20,10 @@
         (if (= n 0)
             0
             (if (even? n)
-            (+(square (/ n 2))
-            (+(+ n n) 1))
-            (+ (square (- n 1))
-            (- (+ n n) 1))))))
+                (*(square (/ n 2))
+                4)
+                (+ (square (- n 1))
+                (- (+ n n) 1))))))
 
 ;Excercise 2.5
 (define multiply
@@ -43,5 +43,5 @@
 (define presents-through-day
     (lambda (n)
         (if (= n 1) 1
-        (+ (presents-on-day n) (presents-on-day (- n 1))
+        (+ (presents-on-day n) (presents-through-day (- n 1))
     ))))
