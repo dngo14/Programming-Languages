@@ -1,39 +1,5 @@
 #!/usr/bin/node
 
-let output = ""
-
-// const parser = (string) => {
-//     var match = /\r|\n/.exec(string)
-//     let lines
-//     if (match) {
-//         lines = string.split("\n")
-//     }else {
-//         lines = string
-//     }
-//     for (let i = 0; i < lines.length; i+=1) {
-//         let words = lines[i].split()
-//         if (words[0] == "c") {
-//             "turtle.color(words[1], words[2])"
-//         }else if (words[0][0] == "f"){
-//             "turtle.fd(parseInt(words[0]))"
-//         }else if (words[0][0] == "b"){
-//             "turtle.bk(parseInt(words[0]))"
-//         }else if (words[0][0] == "l"){
-//             "turtle.lt(parseInt(words[0]))"
-//         }else if (words[0][0] == "r"){
-//             "turtle.rt(parseInt(words[0]))"
-//         }else if(words[1] == "repeat") {
-//             for (let count = 0; count < parseInt(words[2]); i+=1) {
-                
-//             }
-//         }else if(words[0] == "fill") {
-//             turtle.begin_fill()
-//             let line2 = lines[i].match(/{([^}]*)}/)
-//             parser(line2)
-//         }
-//     }
-// }
-
 let prettystring = ""
 const parser = (string) => {
     if (string.includes("\n")) {
